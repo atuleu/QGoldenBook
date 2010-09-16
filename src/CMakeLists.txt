@@ -1,0 +1,1 @@
+include_directories(libQGBBase QGBAdmin QGBDrawer QGBViewer)

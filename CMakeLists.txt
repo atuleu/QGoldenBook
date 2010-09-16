@@ -1,5 +1,6 @@
-project(QGoldenBook CXX )
+project(QGoldenBook CXX C)
 
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(MAJOR_VERSION 0)
 set(MINOR_VERSION 1)

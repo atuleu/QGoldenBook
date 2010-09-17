@@ -7,7 +7,7 @@ set(MINOR_VERSION 1)
 set(PATCH_VERSION 0)
 set(VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
-find_package(QT4 REQUIRED )
+find_package(Qt4 REQUIRED )
 find_package(Protobuf REQUIRED)
 include_directories(${PROTOBUF_INCLUDE_DIRS})
 

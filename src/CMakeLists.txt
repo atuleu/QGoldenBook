@@ -1,1 +1,2 @@
 add_subdirectory(libQGBBase)
+add_subdirectory(QGBDrawer)

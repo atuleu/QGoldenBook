@@ -8,3 +8,4 @@ install_manifest.txt
 *.dylib
 moc_*
 *.a
+*.so*

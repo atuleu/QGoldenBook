@@ -67,7 +67,7 @@ public:
                                SaturationPressure, NoSaturation };
     enum LineWidthType { LineWidthPressure, LineWidthTilt, NoLineWidth };
 
-    TabletCanvas();
+    TabletCanvas(QWidget *parent=NULL);
 
     bool saveImage(const QString &file);
     bool loadImage(const QString &file);

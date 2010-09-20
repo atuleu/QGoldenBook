@@ -6,13 +6,13 @@
  */
 
 #include <QApplication>
-#include "tabletcanvas.h"
+#include "MainWindow.h"
 
 
 int main (int argc, char ** argv){
   QApplication appli(argc,argv);
-  TabletCanvas canvas;
-  canvas.show();
+  MainWindow window;
+  window.show();
   return appli.exec();
 
 

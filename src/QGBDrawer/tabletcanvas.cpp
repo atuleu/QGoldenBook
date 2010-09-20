@@ -45,9 +45,9 @@
 #include "tabletcanvas.h"
 
 //! [0]
-TabletCanvas::TabletCanvas()
+TabletCanvas::TabletCanvas(QWidget *parent)
+: QWidget(parent)
 {
-    resize(500, 500);
     myBrush = QBrush();
     myPen = QPen();
     initPixmap();

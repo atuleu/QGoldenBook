@@ -6,7 +6,9 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 *.dylib
+<<<<<<< HEAD
 moc_*
 *.a
+=======
 *.so*
-ui_*
+>>>>>>> 2e947ba413ba260e56aa03c380bdac8006f02536

@@ -11,7 +11,7 @@ file(GLOB_RECURSE HEADERS *.h *.hpp)
 file(GLOB_RECURSE RESSOURCES_QRC *.qrc )
 
 file(GLOB_RECURSE PROTOBUF_DEF *.proto )
-
+file(GLOB_RECURSE FORMS *.ui) 
 
 ################################################################################
 # QT & Protobuf PREPROCESSING STAGE

@@ -19,3 +19,7 @@ MainWindow::MainWindow() {
 
 MainWindow::~MainWindow() {
 }
+
+void MainWindow::setColor(const QColor & color){
+  centralwidget->setColor(color);
+}

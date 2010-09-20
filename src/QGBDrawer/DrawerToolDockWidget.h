@@ -13,12 +13,22 @@
 /**
  *
  */
+class MainWindow;
 class DrawerToolDockWidget : public QDockWidget,
 public Ui::DrawerToolDockWidget{
   Q_OBJECT
 public:
-  DrawerToolDockWidget(QWidget *parent);
+  DrawerToolDockWidget(MainWindow *parent);
   virtual ~DrawerToolDockWidget();
+
+
+  public slots :
+  void on_colorPicker_colorChanged(const QColor & color);
+
+
+
+  private :
+  MainWindow *d_mainWindow;
 };
 
 #endif // LIBAMARSI_QUAD_DRAWERTOOLDOCKWIDGET_H_

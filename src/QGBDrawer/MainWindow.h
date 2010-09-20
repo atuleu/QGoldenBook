@@ -21,6 +21,9 @@ public:
   MainWindow();
   virtual ~MainWindow();
 
+public :
+  void setColor(const QColor & color);
+
 private :
   DrawerToolDockWidget * d_drawerTools;
 };

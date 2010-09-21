@@ -24,6 +24,8 @@ public:
 public :
   void setColor(const QColor & color);
 
+  void debugDraw();
+
 private :
   DrawerToolDockWidget * d_drawerTools;
 };

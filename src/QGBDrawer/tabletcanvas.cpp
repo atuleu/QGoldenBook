@@ -95,7 +95,7 @@ bool TabletCanvas::loadImage(const QString &file)
 //! [3]
 void TabletCanvas::tabletEvent(QTabletEvent *event)
 {
-
+  qDebug()<< event;
     switch (event->type()) {
         case QEvent::TabletPress:
             if (!deviceDown) {

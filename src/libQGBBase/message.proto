@@ -1,0 +1,14 @@
+message Image {
+	required bytes data = 1;
+}
+
+
+
+message BaseMessage {
+  enum Type { NEW_IMAGE=1; }
+	
+	required Type type = 1;
+	
+	optional Image image = 2; 
+
+}

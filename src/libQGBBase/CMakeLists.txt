@@ -59,11 +59,11 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 #target_link_libraries(AMARSi-benchmark ${QT_LIBRARIES} amarsi-bench)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-set(ERROR_FLAGS "-W -Wall -Werror -ansi")
+set(ERROR_FLAGS "-W -Wall -Wno-error -ansi")
 else(CMAKE_COMPILER_IS_GNUCXX)
 set(ERROR_FLAGS " " )
 endif(CMAKE_COMPILER_IS_GNUCXX)
-
+message (STATUS ${ERROR_FLAGS})
 #if(UNIX)
 #  add_definitions(-DIS_ON_UNIX)
 #endif(UNIX)

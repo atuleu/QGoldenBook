@@ -14,7 +14,8 @@ MainWindow::MainWindow() {
   d_drawerTools = new DrawerToolDockWidget(this);
 
   this->addDockWidget(Qt::RightDockWidgetArea,d_drawerTools);
-
+  centralwidget->setColor(Qt::black);
+  showFullScreen();
 }
 
 MainWindow::~MainWindow() {

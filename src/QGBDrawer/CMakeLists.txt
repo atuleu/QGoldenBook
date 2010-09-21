@@ -57,7 +57,7 @@ target_link_libraries(QGBDrawer ${QT_LIBRARIES} QGBBase)
 if(CMAKE_COMPILER_IS_GNUCXX)
 set(ERROR_FLAGS "-W -Wall -Werror -ansi")
 else(CMAKE_COMPILER_IS_GNUCXX)
-set(ERROR_FLAGS )
+set(ERROR_FLAGS " ")
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 #if(UNIX)

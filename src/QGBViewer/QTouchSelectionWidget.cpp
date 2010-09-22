@@ -32,7 +32,7 @@ void QTouchSelectionWidget::populateWithDirectory(const QString & dir){
     if(file.isDir())
       continue;
     if(file.isFile()){
-      QString suffix=file.suffix();
+      QString suffix=file.suffix().toLower();
       qDebug() << "File "<< file.filePath() <<" has suffix "<< suffix;
       if(suffix == "jpg" || suffix == "jpeg"){
         ThumbImage pix(file.filePath());

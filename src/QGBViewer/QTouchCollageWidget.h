@@ -14,6 +14,9 @@
 /**
  *
  */
+
+class QTouchEvent;
+
 class QTouchCollageWidget : public QWidget{
   Q_OBJECT
 public:
@@ -31,6 +34,10 @@ public:
   void mouseReleaseEvent(QMouseEvent *e);
   void mouseDoubleClickEvent(QMouseEvent *e);
 
+  void touchBeginEvent(QTouchEvent *e);
+  void touchUpdateEvent(QTouchEvent *e);
+  void touchEndEvent(QTouchEvent *e);
+  bool event(QEvent *e);
 public slots :
 
   void addNewImage(QPixmap &);
@@ -46,6 +53,9 @@ private :
 
   QGBImage *d_selectedImage;
   QPointF d_lastPosition;
+
+  qreal d_saveScale;
+  qreal d_saveAngle;
 };
 
 #endif // LIBAMARSI_QUAD_QTOUCHCOLLAGEWIDGET_H_

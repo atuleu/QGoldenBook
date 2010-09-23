@@ -10,6 +10,8 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <QTouchEvent>
+#include <iostream>
+
 QTouchCollageWidget::QTouchCollageWidget(QWidget * parent)
 : QWidget(parent)
 , d_selectedImage(0){
@@ -41,7 +43,6 @@ void QTouchCollageWidget::renderAnImage(QPainter *p,
   QPointF center(image.pixmap().width()/2.0,image.pixmap().height()/2.0);
   p->translate(image.const_position());
   p->scale(image.scale(),image.scale());
-  p->translate(center);
   p->rotate(image.angle());
   p->translate(-center);
 
@@ -177,24 +178,25 @@ bool QTouchCollageWidget::event(QEvent *e){
       touchEndEvent(event);
       break;
     }
+	return true;
   }
   return QWidget::event(e);
 }
 
 
 void QTouchCollageWidget::touchBeginEvent(QTouchEvent *e){
-  if(e->touchPoints().count() != 2){
+  if(e->touchPoints().count() != 1){
     e->ignore();
     return;
   }
   e->accept();
   const QTouchEvent::TouchPoint & first = e->touchPoints().first();
-  const QTouchEvent::TouchPoint & last = e->touchPoints().last();
+ 
 
   int indexFirst = selectImageAtPosition(QPoint(first.pos().x(),first.pos().y()));
-  int indexLast = selectImageAtPosition(QPoint(first.pos().x(),first.pos().y()));
 
-  if(indexFirst != indexLast || indexFirst == -1){
+
+  if(indexFirst == -1){
     d_selectedImage =NULL; //deselect image;
     return;
   }
@@ -217,15 +219,24 @@ void QTouchCollageWidget::updateScaleAngle(QTouchEvent *e){
   int indexFirst = selectImageAtPosition(QPoint(first.pos().x(),first.pos().y()));
   int indexLast = selectImageAtPosition(QPoint(first.pos().x(),first.pos().y()));
 
-  qreal scaleFactor = QLineF(first.pos(), last.pos()).length()
-                               / QLineF(first.startPos(), last.startPos()).length();
+  qreal scaleFactor = 0.2*QLineF(first.pos(), last.pos()).length()
+                               / QLineF(first.startPos(), last.startPos()).length() + 0.8;
 
 
   QPointF vecNow(first.pos()-last.pos());
   QPointF vecStart(first.startPos()-last.startPos());
 
-  qreal angle = std::acos(vecNow.x()*vecStart.x()+vecNow.y()* vecStart.y());
 
+  qreal normNow = std::sqrt(vecNow.x()*vecNow.x()+vecNow.y()* vecNow.y());
+  qreal normStart = std::sqrt(vecStart.x()*vecStart.x()+vecStart.y()* vecStart.y());
+
+
+  qreal angle = std::acos((vecNow.x()*vecStart.x()+vecNow.y()* vecStart.y())/(normNow * normStart))*180/3.14159265;
+
+  qreal discr = vecNow.x() * vecStart.y() - vecNow.y() * vecStart.x();
+  angle *= discr < 0? 1.0 : -1.0; 
+  
+  std::cerr<< " angle "<<angle<<" "<<scaleFactor<<std::endl;
   d_selectedImage->setAngle(d_saveAngle+angle);
   d_selectedImage->setScale(d_saveScale*scaleFactor);
 

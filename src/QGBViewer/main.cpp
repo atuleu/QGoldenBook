@@ -17,7 +17,7 @@ int main(int argc, char ** argv){
 
   QGBViewerMainWindow main;
 
-  main.show();
+  main.showFullScreen();
 
   return appli.exec();
 }

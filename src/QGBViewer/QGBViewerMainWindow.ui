@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>QGBViewer</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
   </property>

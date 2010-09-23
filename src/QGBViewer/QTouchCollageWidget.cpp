@@ -14,6 +14,7 @@ QTouchCollageWidget::QTouchCollageWidget(QWidget * parent)
 : QWidget(parent)
 , d_selectedImage(0){
   initSelectionPixmap();
+  this->setAttribute(Qt::WA_AcceptTouchEvents);
 }
 
 QTouchCollageWidget::~QTouchCollageWidget() {
@@ -203,12 +204,12 @@ void QTouchCollageWidget::touchBeginEvent(QTouchEvent *e){
 
 }
 
-void QTouchCollageWidget::touchUpdateEvent(QTouchEvent *e){
+
+void QTouchCollageWidget::updateScaleAngle(QTouchEvent *e){
   if(e->touchPoints().count() != 2){
-    return;
+      return;
   }
-  if(!d_selectedImage)
-    return;
+
   e->accept();
   const QTouchEvent::TouchPoint & first = e->touchPoints().first();
   const QTouchEvent::TouchPoint & last = e->touchPoints().last();
@@ -217,7 +218,7 @@ void QTouchCollageWidget::touchUpdateEvent(QTouchEvent *e){
   int indexLast = selectImageAtPosition(QPoint(first.pos().x(),first.pos().y()));
 
   qreal scaleFactor = QLineF(first.pos(), last.pos()).length()
-                         / QLineF(first.startPos(), last.startPos()).length();
+                               / QLineF(first.startPos(), last.startPos()).length();
 
 
   QPointF vecNow(first.pos()-last.pos());
@@ -228,37 +229,24 @@ void QTouchCollageWidget::touchUpdateEvent(QTouchEvent *e){
   d_selectedImage->setAngle(d_saveAngle+angle);
   d_selectedImage->setScale(d_saveScale*scaleFactor);
 
-  update();
 
+}
+
+void QTouchCollageWidget::touchUpdateEvent(QTouchEvent *e){
+
+  if(!d_selectedImage)
+    return;
+  updateScaleAngle(e);
+
+  update();
 }
 
 
 void QTouchCollageWidget::touchEndEvent(QTouchEvent *e){
-  if(e->touchPoints().count() != 2){
-    return;
-  }
   if(!d_selectedImage)
     return;
 
-  e->accept();
-  const QTouchEvent::TouchPoint & first = e->touchPoints().first();
-  const QTouchEvent::TouchPoint & last = e->touchPoints().last();
-
-  int indexFirst = selectImageAtPosition(QPoint(first.pos().x(),first.pos().y()));
-  int indexLast = selectImageAtPosition(QPoint(first.pos().x(),first.pos().y()));
-
-  qreal scaleFactor = QLineF(first.pos(), last.pos()).length()
-                         / QLineF(first.startPos(), last.startPos()).length();
-
-
-  QPointF vecNow(first.pos()-last.pos());
-  QPointF vecStart(first.startPos()-last.startPos());
-
-  qreal angle = std::acos(vecNow.x()*vecStart.x()+vecNow.y()* vecStart.y());
-
-  d_selectedImage->setAngle(d_saveAngle+angle);
-  d_selectedImage->setScale(d_saveScale*scaleFactor);
-
+  updateScaleAngle(e);
   d_selectedImage = NULL;//unselect the image
 
   update();

@@ -47,6 +47,7 @@ private :
   void renderAnImage(QPainter *p, const QGBImage & image, int color =-1);
   int selectImageAtPosition(const QPoint & position);
   void initSelectionPixmap();
+  void updateScaleAngle(QTouchEvent *e);
   ListOfImage d_displayedImage;
   QPixmap d_selectionPixmap;
 

@@ -12,6 +12,8 @@
 #include <QSettings>
 #include <QDebug>
 
+#include<libQGBBase/settings/QGBSettings.h>
+
 QGBViewerMainWindow::QGBViewerMainWindow() {
 
   QSettings settings;
@@ -56,6 +58,10 @@ void QGBViewerMainWindow::openAFolder(){
 void QGBViewerMainWindow::keyPressEvent(QKeyEvent *e){
   if(e->key() == Qt::Key_O && e->modifiers() & Qt::ControlModifier){
     openAFolder();
+  }
+
+  if(e->key() == Qt::Key_S && e->modifiers() & Qt::ControlModifier){
+    QGBSettings::instance()->show();
   }
 }
 

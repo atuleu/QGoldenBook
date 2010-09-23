@@ -33,6 +33,8 @@ public slots :
   void on_actionSend_triggered();
   void onConnection();
 
+  void keyPressEvent(QKeyEvent *e);
+
 private :
 
   void sendPixmap(const QPixmap & pixmap);

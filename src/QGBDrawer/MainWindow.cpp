@@ -11,6 +11,9 @@
 #include <QDebug>
 #include <QBuffer>
 #include <QSettings>
+#include <QKeyEvent>
+
+#include<libQGBBase/settings/QGBSettings.h>
 
 MainWindow::MainWindow()
 : d_connected(false){
@@ -102,3 +105,8 @@ void MainWindow::sendPixmap(const QPixmap & pix){
 }
 
 
+void MainWindow::keyPressEvent(QKeyEvent *e){
+  if(e->key()== Qt::Key_S && e->modifiers() & Qt::ControlModifier){
+    QGBSettings::instance()->show();
+  }
+}

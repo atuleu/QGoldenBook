@@ -86,6 +86,12 @@ public:
     int maximum(int a, int b)
         { return a > b ? a : b; }
 
+    const QPixmap & const_pixmap() const{
+      return pixmap;
+    }
+
+public slots :
+    void setFactor(qreal factor_);
 protected:
     void tabletEvent(QTabletEvent *event);
     void paintEvent(QPaintEvent *event);
@@ -109,6 +115,8 @@ private:
     QPen myPen;
     bool deviceDown;
     QPoint polyLine[3];
+    bool mouseDown;
+    qreal factor;
 };
 //! [0]
 

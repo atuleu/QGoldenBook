@@ -9,6 +9,8 @@
 #include "MainWindow.h"
 #include <QFileDialog>
 #include <QDebug>
+#include <QBuffer>
+#include <libQGBBase/message.pb.h>
 
 MainWindow::MainWindow() {
   this->setupUi(this);
@@ -19,6 +21,9 @@ MainWindow::MainWindow() {
   centralwidget->setColor(Qt::black);
   showFullScreen();
   QDir dir(":/ressources");
+
+  connect(d_drawerTools,SIGNAL(sizeChanged(qreal)),
+          centralwidget,SLOT(setFactor(qreal)));
 
   foreach(const QFileInfo & file , dir.entryInfoList()){
     qDebug()<<file.absoluteFilePath()<<" "<<file.size();
@@ -54,4 +59,21 @@ void MainWindow::on_actionOpen_triggered(){
     file=":/ressources/paperGround.jpg";
 
   centralwidget->loadImage(file);
+}
+
+
+void MainWindow::on_actionSend_triggered(){
+  qDebug()<<"Start to send";
+  BaseMessage m;
+  Image * im =m.mutable_image();
+  qDebug()<<"Start to parse image";
+  QByteArray bytes;
+  QBuffer buffer(&bytes);
+  buffer.open(QIODevice::WriteOnly);
+  centralwidget->const_pixmap().save(&buffer,"JPG");
+  im->set_data(bytes,bytes.size());
+  m.set_type(BaseMessage_Type_NEW_IMAGE);
+  qDebug()<<"Start to send m "<<m.ByteSize();
+  d_socket.sendNewMessage(&m);
+  qDebug()<<"Sended";
 }

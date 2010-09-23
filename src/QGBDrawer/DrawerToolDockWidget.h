@@ -24,8 +24,9 @@ public:
 
   public slots :
   void on_colorPicker_colorChanged(const QColor & color);
-
-
+  void on_sizeSlider_valueChanged(int value);
+  signals :
+  void sizeChanged(qreal);
 
   private :
   MainWindow *d_mainWindow;

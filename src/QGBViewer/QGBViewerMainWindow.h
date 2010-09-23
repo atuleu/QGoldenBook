@@ -27,8 +27,10 @@ public slots :
   void openAFolder();
   void on_resetButton_clicked();
   void on_reloadButton_clicked();
+  void receiveAnImage();
 private :
   QDir d_dir;
+  QMessageServer d_server;
 };
 
 #endif // LIBAMARSI_QUAD_QGBVIEWERMAINWINDOW_H_

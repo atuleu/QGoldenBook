@@ -6,7 +6,8 @@
  */
 
 #include "../message.pb.h"
-
+#include <QDebug>
+#include <QSettings>
 #include "QMessageSocket.h"
 
 QMessageSocket::QMessageSocket(QObject * parent)
@@ -19,6 +20,12 @@ QMessageSocket::QMessageSocket(QObject * parent)
                           QMessageSocketListener * )),
           this, SLOT(newDataToRead(const QString &,
                                    QMessageSocketListener *)));
+
+  QSettings settings;
+  socket->connectToHost(settings.value("server").toString(),
+                        settings.value("port").toInt());
+  connect(socket,SIGNAL(connected()),
+          this,SLOT(ready()));
 }
 
 QMessageSocket::~QMessageSocket() {
@@ -27,6 +34,10 @@ QMessageSocket::~QMessageSocket() {
       ++m){
     delete *m;
   }
+}
+
+void QMessageSocket::ready(){
+  qDebug()<<"Socket is ready";
 }
 
 google::protobuf::Message* QMessageSocket::nextPendingMessage(){

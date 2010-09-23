@@ -58,6 +58,8 @@ public:
   void mouseDoubleClickEvent(QMouseEvent *e);
   void paint(QPainter *p);
 
+  void addPixmap(QPixmap &p);
+
 signals :
   void openedImage(QPixmap &);
   void reloadedImages();

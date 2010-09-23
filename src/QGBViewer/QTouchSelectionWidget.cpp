@@ -173,3 +173,8 @@ void QTouchSelectionWidget::mouseDoubleClickEvent(QMouseEvent *e){
   }
 }
 
+void QTouchSelectionWidget::addPixmap(QPixmap &p){
+    d_openedImage.push_back(ThumbImage(p));
+    update();
+}
+

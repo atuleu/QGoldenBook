@@ -26,6 +26,7 @@ public:
 public slots :
   void sendNewMessage(google::protobuf::Message *m);
   void newDataToRead(const QString & data, QMessageSocketListener *socket);
+  void ready();
 signals :
   void receivedNewMessage();
 

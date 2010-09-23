@@ -52,7 +52,7 @@ add_executable(QGBDrawer ${SOURCES} ${HEADERS} ${MOC_FILES}
 include_directories(${PROJECT_SOURCE_DIR}/src)
 #add_executable(AMARSi-benchmark ${SOURCES} ${HEADERS} ${MOC_FILES} ${FORMS_HEADERS} ${RESSOURCES})
 
-target_link_libraries(QGBDrawer ${QT_LIBRARIES} QGBBase)
+target_link_libraries(QGBDrawer ${QT_LIBRARIES} QGBBase ${PROTOBUF_LIBRARY})
 
 if(CMAKE_COMPILER_IS_GNUCXX)
 set(ERROR_FLAGS "-W -Wall -Werror -ansi")

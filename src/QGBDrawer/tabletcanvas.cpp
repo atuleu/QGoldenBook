@@ -58,6 +58,12 @@ TabletCanvas::TabletCanvas(QWidget *parent)
     alphaChannelType = NoAlpha;
     colorSaturationType = NoSaturation;
     lineWidthType = LineWidthPressure;
+    mouseDown=false;
+    factor =1.0;
+}
+
+void TabletCanvas::setFactor(qreal factor_){
+    factor = factor_;
 }
 
 void TabletCanvas::initPixmap()
@@ -118,6 +124,8 @@ void TabletCanvas::tabletEvent(QTabletEvent *event)
             if (deviceDown) {
                 updateBrush(event);
                 QPainter painter(&pixmap);
+                painter.setRenderHint(QPainter::Antialiasing);
+                painter.setRenderHint(QPainter::SmoothPixmapTransform);
                 paintPixmap(painter, event);
             }
             break;
@@ -127,6 +135,7 @@ void TabletCanvas::tabletEvent(QTabletEvent *event)
     update();
 }
 //! [3]
+
 
 //! [4]
 void TabletCanvas::paintEvent(QPaintEvent *)
@@ -264,10 +273,17 @@ void TabletCanvas::updateBrush(QTabletEvent *event)
     if (event->pointerType() == QTabletEvent::Eraser) {
         myBrush.setColor(Qt::white);
         myPen.setColor(Qt::white);
-        myPen.setWidthF(event->pressure() * 10 + 1);
+        myPen.setWidthF(event->pressure() * 10*factor + 1);
     } else {
+        QRadialGradient grad;
+        grad.setColorAt(0,myColor);
+        grad.setColorAt(0.5,myColor);
+        QColor colr2(myColor);
+        colr2.setAlpha(0);
+        grad.setColorAt(1.0,colr2);
+        myBrush = QBrush(grad);
         myBrush.setColor(myColor);
-        myPen.setColor(myColor);
+        myPen.setBrush(grad);
     }
 }
 //! [11]

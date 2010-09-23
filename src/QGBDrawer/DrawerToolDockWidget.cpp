@@ -24,3 +24,8 @@ DrawerToolDockWidget::~DrawerToolDockWidget() {
 void DrawerToolDockWidget::on_colorPicker_colorChanged(const QColor & color){
   d_mainWindow->setColor(color);
 }
+
+void DrawerToolDockWidget::on_sizeSlider_valueChanged(int value){
+  qreal nV= value * 2.7 / qreal(sizeSlider->maximum()- sizeSlider->minimum()) +0.3;
+  emit sizeChanged(nV);
+}

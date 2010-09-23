@@ -7,7 +7,7 @@
 
 #include "QGBViewerMainWindow.h"
 #include <QFileDialog>
-
+#include <libQGBBase/message.pb.h>
 #include <QKeyEvent>
 #include <QSettings>
 #include <QDebug>
@@ -32,6 +32,9 @@ QGBViewerMainWindow::QGBViewerMainWindow() {
 
   connect(selectionWidget,SIGNAL(reloadedImages()),
           collageWidget,SLOT(cleanAll()));
+
+  connect(&d_server,SIGNAL(receivedNewMessage()),
+          this,SLOT(receiveAnImage()));
 }
 
 QGBViewerMainWindow::~QGBViewerMainWindow() {
@@ -62,4 +65,23 @@ void QGBViewerMainWindow::keyPressEvent(QKeyEvent *e){
 
  void QGBViewerMainWindow::on_reloadButton_clicked(){
    selectionWidget->populateWithDirectory(d_dir.absolutePath());
+ }
+
+
+ void QGBViewerMainWindow::receiveAnImage(){
+   BaseMessage *m = static_cast<BaseMessage *>(d_server.nextPendingMessage());
+   if(m->has_image()){
+
+     const std::string & data=m->image().data();
+     QPixmap pix;
+     pix.loadFromData((uchar*)data.c_str(),data.length(),"JPG");
+
+
+     time_t seconds;
+     pix.save(d_dir.absoluteFilePath("img"+QString::number(seconds)+".jpg"));
+
+     selectionWidget->addPixmap(pix);
+   }
+
+   d_server.nextMessage();
  }

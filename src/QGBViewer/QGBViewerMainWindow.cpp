@@ -4,6 +4,7 @@
  *  \date 22 sept. 2010
  *  \author akay
  */
+#include <ctime>
 
 #include "QGBViewerMainWindow.h"
 #include <QFileDialog>

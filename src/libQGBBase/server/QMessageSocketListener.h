@@ -12,12 +12,6 @@
 #include <QTcpSocket>
 
 
-namespace google{
-  namespace protobuf {
-    class Message;
-  }
-}
-
 /**
  *
  */
@@ -32,18 +26,18 @@ public:
 
 public slots :
 
-  void writeMessageToSocket(google::protobuf::Message *m);
+  void writeImageToSocket(QPixmap & p);
   void readDataFromSocket();
 
 signals :
-  void gettedNewData(const QString & data,
+  void gettedNewData(const QByteArray & data,
                      QMessageSocketListener * me);
 
 private :
   QTcpSocket *d_socket;
   bool d_gettedMessage;
   qint64 d_size;
-  QString d_data;
+  QByteArray d_data;
   QDataStream d_stream;
 };
 

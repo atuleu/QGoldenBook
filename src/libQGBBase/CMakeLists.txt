@@ -11,7 +11,7 @@ file(GLOB_RECURSE HEADERS *.h *.hpp)
 file(GLOB_RECURSE RESSOURCES_QRC *.qrc )
 
 file(GLOB_RECURSE PROTOBUF_DEF *.proto )
-file(GLOB_RECURSE FORMS *.ui )
+file(GLOB_RECURSE FORMS *.ui ) 
 
 ################################################################################
 # QT & Protobuf PREPROCESSING STAGE
@@ -20,7 +20,7 @@ file(GLOB_RECURSE FORMS *.ui )
 # QtDesigner forms
 qt4_wrap_ui(FORMS_HEADERS ${FORMS})
 
-# Pre compilator
+# Pre compilator 
 foreach(header_file ${HEADERS})
   set(Q_OBJECT_MACRO_FOUND )
   file(READ ${header_file} hfile ) 

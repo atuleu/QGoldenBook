@@ -8,7 +8,7 @@
 #ifndef LIBAMARSI_QUAD_MAINWINDOW_H_
 #define LIBAMARSI_QUAD_MAINWINDOW_H_
 
-#include <libQGBBase/server/QMessageSocket.h>
+#include <QTcpSocket>
 #include <QMainWindow>
 #include "ui_MainDrawerWindow.h"
 class DrawerToolDockWidget;
@@ -31,11 +31,17 @@ public slots :
   void on_actionOpen_triggered();
   void on_actionClear_triggered();
   void on_actionSend_triggered();
+  void onConnection();
 
 private :
-  DrawerToolDockWidget * d_drawerTools;
-  QMessageSocket d_socket;
 
+  void sendPixmap(const QPixmap & pixmap);
+
+  DrawerToolDockWidget * d_drawerTools;
+  QTcpSocket d_socket;
+
+  std::list<QPixmap> d_waitingImages;
+  bool d_connected;
 };
 
 #endif // LIBAMARSI_QUAD_MAINWINDOW_H_

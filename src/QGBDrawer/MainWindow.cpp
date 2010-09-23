@@ -10,9 +10,10 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QBuffer>
-#include <libQGBBase/message.pb.h>
+#include <QSettings>
 
-MainWindow::MainWindow() {
+MainWindow::MainWindow()
+: d_connected(false){
   this->setupUi(this);
 
   d_drawerTools = new DrawerToolDockWidget(this);
@@ -20,15 +21,24 @@ MainWindow::MainWindow() {
   this->addDockWidget(Qt::RightDockWidgetArea,d_drawerTools);
   centralwidget->setColor(Qt::black);
   showFullScreen();
-  QDir dir(":/ressources");
 
   connect(d_drawerTools,SIGNAL(sizeChanged(qreal)),
           centralwidget,SLOT(setFactor(qreal)));
 
-  foreach(const QFileInfo & file , dir.entryInfoList()){
-    qDebug()<<file.absoluteFilePath()<<" "<<file.size();
-  }
+  connect(&d_socket,SIGNAL(connected()),
+          this,SLOT(onConnection()));
+
+  QSettings settings;
+  d_socket.connectToHost(settings.value("server").toString(),
+                         settings.value("port").toInt(),
+                         QIODevice::WriteOnly);
+
+
+
   on_actionClear_triggered();
+
+
+
 }
 
 MainWindow::~MainWindow() {
@@ -42,6 +52,8 @@ void MainWindow::setColor(const QColor & color){
 void MainWindow::debugDraw(){
 
 }
+
+
 
 
 void MainWindow::on_actionClear_triggered(){
@@ -63,17 +75,30 @@ void MainWindow::on_actionOpen_triggered(){
 
 
 void MainWindow::on_actionSend_triggered(){
-  qDebug()<<"Start to send";
-  BaseMessage m;
-  Image * im =m.mutable_image();
-  qDebug()<<"Start to parse image";
-  QByteArray bytes;
-  QBuffer buffer(&bytes);
-  buffer.open(QIODevice::WriteOnly);
-  centralwidget->const_pixmap().save(&buffer,"JPG");
-  im->set_data(bytes,bytes.size());
-  m.set_type(BaseMessage_Type_NEW_IMAGE);
-  qDebug()<<"Start to send m "<<m.ByteSize();
-  d_socket.sendNewMessage(&m);
-  qDebug()<<"Sended";
+  if(d_connected){
+    sendPixmap(centralwidget->const_pixmap());
+    return;
+  }
+  d_waitingImages.push_back(centralwidget->const_pixmap());
 }
+
+void MainWindow::onConnection(){
+  d_connected = true;
+
+  foreach(const QPixmap & pix, d_waitingImages){
+    sendPixmap(pix);
+  }
+}
+
+void MainWindow::sendPixmap(const QPixmap & pix){
+  QByteArray block;
+  QDataStream out(&block,QIODevice::WriteOnly);
+  out.setVersion(QDataStream::Qt_4_6);
+  out<<(qint64) 0;
+  pix.save(out.device(),"jpg");
+  out.device()->seek(0);
+  out<<(qint64)(block.size()-sizeof(qint64));
+  d_socket.write(block);
+}
+
+

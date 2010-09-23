@@ -5,14 +5,13 @@
  *  \author akay
  */
 
-#include <google/protobuf/Message.h>
 
 #include <QTcpServer>
 #include <QDebug>
 #include <QSettings>
+#include <QPixmap>
 #include <QObject>
 #include "QMessageServer.h"
-#include "../message.pb.h"
 #include "QMessageSocketListener.h"
 
 QMessageServer::QMessageServer()
@@ -41,20 +40,20 @@ QMessageServer::~QMessageServer() {
   d_queue.clear();
 }
 
-google::protobuf::Message * QMessageServer::nextPendingMessage(){
+QPixmap * QMessageServer::nextPendingImage(){
   if(!d_queue.empty())
     return d_queue.front();
   return NULL;
 }
-void QMessageServer::nextMessage(){
+void QMessageServer::nextImage(){
   if(d_queue.empty())
     return;
   delete d_queue.front();
   d_queue.pop_front();
 }
 
-void QMessageServer::broadcastMessageToClient(google::protobuf::Message * m ){
-  emit wantToSendMessage(m);
+void QMessageServer::broadcastMessageToClient(QPixmap &p){
+  emit wantToSendMessage(p);
 }
 
 void QMessageServer::appendNewClient(){
@@ -65,14 +64,11 @@ void QMessageServer::appendNewClient(){
   connect(this,SIGNAL(wantToSendMessage(google::protobuf::Message *m)),
           listener,SLOT(writeMessageToSocket(google::protobuf::Message *)));
 }
-void QMessageServer::newDataToRead(const QString & data, QMessageSocketListener *socket){
+void QMessageServer::newDataToRead(const QByteArray & data, QMessageSocketListener *socket){
 
-  BaseMessage * m = new BaseMessage;
-
-  m->ParseFromString(data.toStdString());
-
-
-  d_queue.push_back(m);
+  QPixmap *pix=new QPixmap();
+  pix->loadFromData(data,"JPG");
+  d_queue.push_back(pix);
   socket->cleanUpForNextMessage();
   emit receivedNewMessage();
 }

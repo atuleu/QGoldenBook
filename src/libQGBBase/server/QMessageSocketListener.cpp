@@ -4,9 +4,8 @@
  *  \date 22 sept. 2010
  *  \author akay
  */
-#include <google/protobuf/Message.h>
 #include "QMessageSocketListener.h"
-
+#include <QPixmap>
 QMessageSocketListener::QMessageSocketListener(QTcpSocket *socket,
                                                QObject *parent)
 : QObject(parent)
@@ -47,21 +46,18 @@ void QMessageSocketListener::readDataFromSocket(){
   if(d_socket->bytesAvailable()< d_size)
     return;
 
-  d_stream >> d_data;
+  d_stream>> d_data;
   emit gettedNewData(d_data,this);
 }
 
-void QMessageSocketListener::writeMessageToSocket(google::protobuf::Message *m){
-  unsigned int len = m->ByteSize();
-  google::protobuf::uint8 *buffer = new google::protobuf::uint8[len];
-  m->SerializeWithCachedSizesToArray(buffer);
+void QMessageSocketListener::writeImageToSocket(QPixmap & image){
   QByteArray block;
   QDataStream out(&block, QIODevice::WriteOnly);
   out.setVersion(QDataStream::Qt_4_6);
   out<<(qint64) 0;
-  out.writeRawData((char*)buffer,len);
+  image.save(out.device(),"jpg");
   out.device()->seek(0);
   out<<(qint64)(block.size() -  sizeof(qint64));
   d_socket->write(block);
-  delete []buffer;
+
 }

@@ -10,15 +10,10 @@
 
 #include <list>
 #include <map>
-
+#include <QPixmap>
 #include <QObject>
 
 
-namespace google{
-  namespace protobuf{
-    class Message;
-  }
-}
 class QTcpServer;
 class QMessageSocketListener;
 /**
@@ -30,23 +25,23 @@ public:
   QMessageServer();
   virtual ~QMessageServer();
 
-  google::protobuf::Message * nextPendingMessage();
-  void nextMessage();
+  QPixmap* nextPendingImage();
+  void nextImage();
 
-  void broadcastMessageToClient(google::protobuf::Message * message );
+  void broadcastMessageToClient(QPixmap & pixmap);
 
 public slots :
   void appendNewClient();
-  void newDataToRead(const QString & data, QMessageSocketListener *socket);
+  void newDataToRead(const QByteArray & data, QMessageSocketListener *socket);
 
 signals :
  void receivedNewMessage();
- void wantToSendMessage(google::protobuf::Message *m);
+ void wantToSendMessage(QPixmap & pixmap);
 private :
   QTcpServer * d_server;
 
   typedef int ClientId;
-  typedef std::list<google::protobuf::Message *> MessageQueue;
+  typedef std::list<QPixmap *> MessageQueue;
 
   MessageQueue d_queue;
 

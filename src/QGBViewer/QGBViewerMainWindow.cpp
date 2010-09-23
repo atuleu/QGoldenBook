@@ -7,7 +7,6 @@
 
 #include "QGBViewerMainWindow.h"
 #include <QFileDialog>
-#include <libQGBBase/message.pb.h>
 #include <QKeyEvent>
 #include <QSettings>
 #include <QDebug>
@@ -69,19 +68,14 @@ void QGBViewerMainWindow::keyPressEvent(QKeyEvent *e){
 
 
  void QGBViewerMainWindow::receiveAnImage(){
-   BaseMessage *m = static_cast<BaseMessage *>(d_server.nextPendingMessage());
-   if(m->has_image()){
 
-     const std::string & data=m->image().data();
-     QPixmap pix;
-     pix.loadFromData((uchar*)data.c_str(),data.length(),"JPG");
+   QPixmap *p= d_server.nextPendingImage();
 
+   time_t second = time(NULL);
+   p->save(d_dir.absoluteFilePath(QString("img-")
+                                  +QString::number(second)+".jpg"));
 
-     time_t seconds;
-     pix.save(d_dir.absoluteFilePath("img"+QString::number(seconds)+".jpg"));
+   selectionWidget->addPixmap(*p);
 
-     selectionWidget->addPixmap(pix);
-   }
-
-   d_server.nextMessage();
+   d_server.nextImage();
  }

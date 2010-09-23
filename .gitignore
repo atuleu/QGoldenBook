@@ -11,3 +11,10 @@ moc_*
 *.so*
 ui_*
 qrc_*
+*.vcproj*
+Debug
+Release
+*.dir
+*.ncb
+*.sln
+*.suo

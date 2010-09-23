@@ -26,6 +26,7 @@
    </attribute>
    <addaction name="actionOpen"/>
    <addaction name="actionSend"/>
+   <addaction name="actionClear"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
@@ -35,6 +36,11 @@
   <action name="actionSend">
    <property name="text">
     <string>send</string>
+   </property>
+  </action>
+  <action name="actionClear">
+   <property name="text">
+    <string>clear</string>
    </property>
   </action>
  </widget>

@@ -82,9 +82,12 @@ bool TabletCanvas::saveImage(const QString &file)
 //! [2]
 bool TabletCanvas::loadImage(const QString &file)
 {
-    bool success = pixmap.load(file);
-
+    QPainter painter(&pixmap);
+    QPixmap tmp;
+    bool success = tmp.load(file);
     if (success) {
+        painter.drawPixmap(QRect(0,0,width(),height()),tmp,
+                           QRect(0,0,tmp.width(),tmp.height()));
         update();
         return true;
     }

@@ -41,6 +41,8 @@ void QTouchSelectionWidget::populateWithDirectory(const QString & dir){
       }
     }
   }
+  emit reloadedImages();
+  update();
 }
 
 

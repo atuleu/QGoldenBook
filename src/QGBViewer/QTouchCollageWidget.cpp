@@ -254,4 +254,9 @@ void QTouchCollageWidget::touchEndEvent(QTouchEvent *e){
 }
 
 
+void QTouchCollageWidget::cleanAll(){
+  d_displayedImage.clear();
+  update();
+}
+
 

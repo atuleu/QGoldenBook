@@ -23,7 +23,7 @@ qt4_wrap_ui(FORMS_HEADERS ${FORMS})
 # Pre compilator
 foreach(header_file ${HEADERS})
   set(Q_OBJECT_MACRO_FOUND )
-  file(READ ${header_file} hfile )
+  file(READ ${header_file} hfile ) 
   string(REGEX MATCH "Q_OBJECT" Q_OBJECT_MACRO_FOUND ${hfile})
   if(Q_OBJECT_MACRO_FOUND)
       list(APPEND FILE_TO_MOC ${header_file})

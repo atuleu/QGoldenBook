@@ -30,7 +30,7 @@ public:
   QMessageServer();
   virtual ~QMessageServer();
 
-  google::protobuf::Message * getNextPendingMessage();
+  google::protobuf::Message * nextPendingMessage();
   void nextMessage();
 
   void broadcastMessageToClient(google::protobuf::Message * message );

@@ -7,8 +7,10 @@
 #include <google/protobuf/Message.h>
 #include "QMessageSocketListener.h"
 
-QMessageSocketListener::QMessageSocketListener(QTcpSocket *socket)
-: d_socket(socket)
+QMessageSocketListener::QMessageSocketListener(QTcpSocket *socket,
+                                               QObject *parent)
+: QObject(parent)
+, d_socket(socket)
 , d_gettedMessage(false)
 , d_size(0)
 , d_stream(d_socket){
@@ -44,6 +46,7 @@ void QMessageSocketListener::readDataFromSocket(){
 
   if(d_socket->bytesAvailable()< d_size)
     return;
+
   d_stream >> d_data;
   emit gettedNewData(d_data,this);
 }

@@ -26,6 +26,10 @@ public :
 
   void debugDraw();
 
+public slots :
+  void on_actionOpen_triggered();
+  void on_actionClear_triggered();
+
 private :
   DrawerToolDockWidget * d_drawerTools;
 };

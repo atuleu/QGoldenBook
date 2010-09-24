@@ -34,12 +34,21 @@ QMessageServer::QMessageServer()
 
 QMessageServer::~QMessageServer() {
   delete d_server;
+  for(MessageQueue::iterator m = d_queue.begin();
+      m!= d_queue.end();
+      ++m)
+    delete *m;
+  d_queue.clear();
 }
 
-google::protobuf::Message * QMessageServer::getNextPendingMessage(){
-  return d_queue.front();
+google::protobuf::Message * QMessageServer::nextPendingMessage(){
+  if(!d_queue.empty())
+    return d_queue.front();
+  return NULL;
 }
 void QMessageServer::nextMessage(){
+  if(d_queue.empty())
+    return;
   delete d_queue.front();
   d_queue.pop_front();
 }

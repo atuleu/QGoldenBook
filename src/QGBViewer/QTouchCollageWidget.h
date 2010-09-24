@@ -41,6 +41,7 @@ public:
 public slots :
 
   void addNewImage(QPixmap &);
+  void cleanAll();
 
 private :
   typedef QList<QGBImage> ListOfImage;

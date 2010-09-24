@@ -10,6 +10,7 @@ moc_*
 *.a
 *.so*
 ui_*
+qrc_*
 *.vcproj*
 Debug
 Release

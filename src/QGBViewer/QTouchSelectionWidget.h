@@ -60,6 +60,7 @@ public:
 
 signals :
   void openedImage(QPixmap &);
+  void reloadedImages();
 
 private:
   qreal posOfImage(unsigned int i);

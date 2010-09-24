@@ -9,8 +9,12 @@
 #include "MainWindow.h"
 
 
+#include <libQGBBase/settings/QGBSettings.h>
+
 int main (int argc, char ** argv){
   QApplication appli(argc,argv);
+
+  QGBSettings::initialize(appli);
 
   MainWindow window;
   window.show();

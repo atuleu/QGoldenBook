@@ -25,7 +25,7 @@ namespace google{
 class QMessageSocketListener : public QObject{
   Q_OBJECT
 public:
-  QMessageSocketListener(QTcpSocket *d_socket);
+  QMessageSocketListener(QTcpSocket *d_socket, QObject *parent=NULL);
   virtual ~QMessageSocketListener();
 
   void cleanUpForNextMessage();
